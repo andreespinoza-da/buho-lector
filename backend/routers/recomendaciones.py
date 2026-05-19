@@ -42,13 +42,31 @@ def actualizar_recomendaciones(estudiante_id: int, catalogo_id: int, db: Session
     db.commit()
 
 @router.post("/generar/{estudiante_id}/{catalogo_id}")
-def generar(estudiante_id: int, catalogo_id: int, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
-    background_tasks.add_task(actualizar_recomendaciones, estudiante_id, catalogo_id, db)
-    return {"mensaje": "Generando recomendaciones en segundo plano"}
+def generar(estudiante_id: int, catalogo_id: int, db: Session = Depends(get_db)):
+    actualizar_recomendaciones(estudiante_id, catalogo_id, db)
+    return {"mensaje": "Recomendaciones generadas"}
 
+@router.get("/{estudiante_id}")
 @router.get("/{estudiante_id}")
 def obtener_recomendaciones(estudiante_id: int, db: Session = Depends(get_db)):
     recs = db.query(models.Recomendaciones).filter(
         models.Recomendaciones.estudiante_id == estudiante_id
     ).order_by(models.Recomendaciones.posicion).all()
-    return recs
+
+    resultado = []
+    for rec in recs:
+        libro = db.query(models.Libro).filter(
+            models.Libro.id == rec.libro_id
+        ).first()
+        if libro:
+            resultado.append({
+                "libro_id":  rec.libro_id,
+                "posicion":  rec.posicion,
+                "titulo":    libro.titulo,
+                "autor":     libro.autor,
+                "generos":   libro.generos,
+                "portada":   libro.portada,
+                "paginas":   libro.paginas,
+            })
+
+    return resultado

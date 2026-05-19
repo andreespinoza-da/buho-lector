@@ -28,5 +28,6 @@ def generar_recomendaciones(estudiante_id: int, catalogo_id: int, db: Session):
     # Ordenar por popularidad
     ordenados = sorted(candidatos, key=lambda lid: popularidad[lid], reverse=True)
     top10 = ordenados[:10]
+    print(f"Candidatos: {len(candidatos)}, Top10: {top10}")
 
     return top10

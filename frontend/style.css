@@ -1,0 +1,375 @@
+/* ============================================
+   BÚHO LECTOR — style.css
+   Estética: Minimalista-CSBrutalism
+   ============================================ */
+
+
+/* ── Variables ─────────────────────────────── */
+:root {
+  --negro:      #1a1a1a;
+  --gris:       #666666;
+  --gris-suave: #e8e8e8;
+  --borde:      #1a1a1a;
+  --radio:      0px;
+  --transicion: 0.15s ease;
+}
+
+/* ── Reset & Base ──────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 400;
+  background-color: #ffffff;
+  color: var(--negro);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 48px 24px;
+}
+
+/* ── Utilidades ────────────────────────────── */
+.oculto { display: none !important; }
+
+/* ── Vistas (contenedor base) ──────────────── */
+#vista-login,
+#vista-recomendaciones,
+#vista-catalogo {
+  width: 100%;
+  max-width: 680px;
+  animation: entrar 0.4s ease both;
+}
+
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Cabecera ──────────────────────────────── */
+h1 {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 400;
+  color: var(--negro);
+  margin-bottom: 4px;
+}
+
+h1 span.emoji { /* por si se usa el emoji por separado */
+  display: inline-block;
+  transform: rotate(-8deg);
+  margin-right: 6px;
+}
+
+h2 {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: lowercase;
+  color: var(--gris);
+  margin-bottom: 32px;
+}
+
+/* ── VISTA LOGIN ────────────────────────────── */
+#vista-login {
+  margin-top: 80px;
+}
+
+#vista-login h1 {
+  font-size: clamp(2.4rem, 7vw, 3.6rem);
+  margin-bottom: 6px;
+}
+
+#vista-login h2 {
+  margin-bottom: 44px;
+}
+
+
+#input-id {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--negro);
+  border-radius: 0;
+  color: var(--marfil);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  outline: none;
+  transition: border-color var(--transicion), background var(--transicion), box-shadow var(--transicion);
+  margin-bottom: 14px;
+
+  /* Quitar flechas en number input */
+  appearance: textfield;
+}
+#input-id::-webkit-outer-spin-button,
+#input-id::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+#input-id::placeholder { color: var(--texto-dim); }
+
+#input-id:focus {
+  border-color: var(--negro);
+  background: #f9f9f9;
+  box-shadow: none;
+}
+
+#error-login {
+  font-size: 0.82rem;
+  color: #e07070;
+  min-height: 1.2em;
+  margin-top: 10px;
+  font-family: 'DM Mono', monospace;
+}
+
+/* ── BOTONES ────────────────────────────────── */
+button {
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: var(--radio);
+  transition: all var(--transicion);
+}
+
+/* Botón primario */
+#vista-login button,
+button[onclick="verCatalogo()"],
+button[onclick="verRecomendaciones()"] {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: var(--negro);
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+#vista-login button:hover,
+button[onclick="verCatalogo()"]:hover,
+button[onclick="verRecomendaciones()"]:hover {
+  background: #333333;
+  transform: none;
+  box-shadow: none;
+}
+
+#vista-login button:active,
+button[onclick="verCatalogo()"]:active,
+button[onclick="verRecomendaciones()"]:active {
+  transform: translateY(0);
+}
+
+/* Botón secundario (cerrar sesión) */
+button[onclick="cerrarSesion()"] {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--texto-dim);
+  border: 1px solid rgba(143,163,184,0.2);
+  margin-top: 6px;
+  font-size: 0.83rem;
+}
+
+button[onclick="cerrarSesion()"]:hover {
+  color: #e07070;
+  border-color: rgba(224,112,112,0.35);
+  background: rgba(224,112,112,0.05);
+}
+
+/* ── SECCIÓN DE LISTA (Recomendaciones y Catálogo) */
+#lista-recomendaciones,
+#lista-catalogo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+/* ── TARJETA DE LIBRO ──────────────────────── */
+.tarjeta-libro {
+  background: #ffffff;
+  border: none;
+  border-left: 3px solid var(--negro);
+  border-radius: 0;
+  padding: 12px 16px;
+  padding: 20px 22px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 16px;
+  align-items: start;
+  transition: transform var(--transicion), border-color var(--transicion), box-shadow var(--transicion);
+  position: relative;
+  overflow: hidden;
+}
+
+.tarjeta-libro:hover {
+  transform: none;
+  border-left-color: var(--gris);
+  box-shadow: none;
+}
+
+.tarjeta-libro:hover::before {
+  transform: scaleY(1);
+}
+
+.libro-titulo {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--marfil);
+  line-height: 1.35;
+  grid-column: 1;
+}
+
+.libro-autor {
+  font-size: 0.82rem;
+  color: var(--texto-dim);
+  grid-column: 1;
+  margin-top: 2px;
+}
+
+.libro-genero {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gris);
+  background: transparent;
+  border: 1px solid var(--gris-suave);
+  border-radius: 3px;
+  padding: 3px 8px;
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  white-space: nowrap;
+}
+
+.libro-score {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--texto-dim);
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.libro-score-barra {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.libro-score-barra-fill {
+  height: 100%;
+  background: var(--negro);
+  border-radius: 2px;
+  transition: width 0.5s ease 0.1s;
+}
+
+/* ── ESTADO CARGA / VACÍO ──────────────────── */
+.estado-carga,
+.estado-vacio {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--texto-dim);
+  font-size: 0.9rem;
+  grid-column: 1 / -1;
+}
+
+.estado-carga::before {
+  content: '◌';
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 12px;
+  animation: pulsar 1.2s ease infinite;
+}
+
+@keyframes pulsar {
+  0%, 100% { opacity: 0.3; transform: scale(0.9); }
+  50%       { opacity: 1;   transform: scale(1.1); }
+}
+
+.estado-vacio::before {
+  content: '📭';
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+/* ── CABECERA DE VISTA (reaprovechar) ───────── */
+.vista-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+/* ── BARRA DE BÚSQUEDA (catálogo) ───────────── */
+#buscador-catalogo {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  color: var(--marfil);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  outline: none;
+  margin-bottom: 20px;
+  transition: border-color var(--transicion), background var(--transicion);
+}
+
+#buscador-catalogo::placeholder { color: var(--texto-dim); }
+
+#buscador-catalogo:focus {
+  border-color: var(--ambar);
+  background: rgba(232,168,56,0.04);
+}
+
+/* ── BOTONES DE NAVEGACIÓN (acción secundaria) */
+.btn-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  background: transparent;
+  color: var(--texto-dim);
+  border: 1px solid rgba(143,163,184,0.2);
+  border-radius: var(--radio);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all var(--transicion);
+  margin-bottom: 20px;
+}
+
+.btn-nav:hover {
+  color: var(--marfil);
+  border-color: rgba(232,168,56,0.3);
+}
+
+/* ── SCROLLBAR ──────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--azul-noche); }
+::-webkit-scrollbar-thumb { background: var(--azul-medio); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--azul-suave); }
+
+/* ── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 480px) {
+  #app { padding: 32px 16px; }
+  #vista-login { margin-top: 40px; }
+  .tarjeta-libro { padding: 16px; }
+}

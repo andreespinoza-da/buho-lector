@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búho Lector</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div id="app">
+
+        <!-- LOGIN -->
+        <div id="vista-login">
+            <h1>Búho Lector</h1>
+            <h2>Iniciar sesión</h2>
+            <input type="number" id="input-id" placeholder="Tu ID de usuario">
+            <button onclick="login()">Entrar</button>
+            <p id="error-login"></p>
+        </div>
+
+        <!-- RECOMENDACIONES -->
+        <div id="vista-recomendaciones" class="oculto">
+            <h1>Búho Lector</h1>
+            <h2>Tus recomendaciones</h2>
+            <div id="lista-recomendaciones"></div>
+            <button onclick="verCatalogo()">Ver catálogo completo</button>
+            <button onclick="cerrarSesion()">Cerrar sesión</button>
+        </div>
+
+        <!-- CATÁLOGO -->
+        <div id="vista-catalogo" class="oculto">
+            <h1> Búho Lector</h1>
+            <h2>Catálogo</h2>
+            <div id="lista-catalogo"></div>
+            <button onclick="verRecomendaciones()">Volver a recomendaciones</button>
+        </div>
+
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>
