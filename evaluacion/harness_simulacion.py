@@ -261,3 +261,42 @@ def correr_simulacion(catalogo, estudiantes, T, n_umbral, k=10, semilla=42):
         for nombre, ejecucion in ejecuciones.items():
             resultados[nombre].append(ejecucion.correr_ronda(t))
     return resultados, ejecuciones
+
+if __name__ == "__main__":
+    """
+    Reproduce la evaluación reportada en la Sección 5.5 (resultado_n15.json).
+
+    Ejecutar desde la carpeta evaluacion/:
+        python harness_simulacion.py
+
+    Parámetros fijos según el experimento original:
+        T = 20 rondas (cubre la entrada completa de la cohorte: ronda_ingreso
+            va de 1 a 20 en estudiantes_sinteticos.jsonl)
+        n_umbral = 15 (umbral de fase fría->cálida para SistemaCompleto)
+        k = 10 (recomendaciones por ronda)
+        semilla = 42 (reproducibilidad)
+    """
+    CATALOGO_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "catalogo_normalizado_1500.jsonl")
+    ESTUDIANTES_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "estudiantes_sinteticos.jsonl")
+    SALIDA_PATH = os.path.join(os.path.dirname(__file__), "resultado_n15.json")
+
+    T = 20
+    N_UMBRAL = 15
+    K = 10
+    SEMILLA = 42
+
+    print(f"Cargando catálogo desde {CATALOGO_PATH} ...")
+    catalogo = cargar_catalogo(CATALOGO_PATH)
+    print(f"Cargando estudiantes desde {ESTUDIANTES_PATH} ...")
+    estudiantes = cargar_estudiantes(ESTUDIANTES_PATH)
+    print(f"{len(catalogo)} libros, {len(estudiantes)} estudiantes.")
+
+    print(f"Corriendo simulación: T={T}, n_umbral={N_UMBRAL}, k={K}, semilla={SEMILLA} ...")
+    resultados, _ejecuciones = correr_simulacion(
+        catalogo, estudiantes, T=T, n_umbral=N_UMBRAL, k=K, semilla=SEMILLA
+    )
+
+    with open(SALIDA_PATH, "w", encoding="utf-8") as f:
+        json.dump(resultados, f, ensure_ascii=False, indent=2)
+
+    print(f"Resultados escritos en {SALIDA_PATH}")
