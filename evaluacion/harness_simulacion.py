@@ -65,6 +65,9 @@ import json
 import math
 import random
 from collections import defaultdict
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "backend", "motor"))
 
 from motor_recomendacion import (
     BaselinePopularidad,
